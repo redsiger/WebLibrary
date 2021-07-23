@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebLibrary.Models;
 using WebLibrary.Models.Identity;
+using WebLibrary.Models.Validator;
 
 namespace WebLibrary
 {
@@ -26,10 +27,23 @@ namespace WebLibrary
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //----CustomValidator----
+            services.AddTransient<IUserValidator<User>, CustomUserValidator>();
+
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>(opts => {
+                //-----Password-----
+                opts.Password.RequiredLength = 5;   // минимальная длина
+                opts.Password.RequireNonAlphanumeric = false;   // требуются ли не алфавитно-цифровые символы
+                opts.Password.RequireLowercase = false; // требуются ли символы в нижнем регистре
+                opts.Password.RequireUppercase = false; // требуются ли символы в верхнем регистре
+                opts.Password.RequireDigit = false; // требуются ли цифры
+                //-----Email-----
+                opts.User.RequireUniqueEmail = true;    // уникальный email
+                opts.User.AllowedUserNameCharacters = ".@abcdefghijklmnopqrstuvwxyz"; // допустимые символы
+            })
                 .AddEntityFrameworkStores<ApplicationContext>();
 
             services.AddControllersWithViews();
@@ -51,6 +65,7 @@ namespace WebLibrary
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
