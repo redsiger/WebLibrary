@@ -1,0 +1,12 @@
+diff --git a/WebLibrary/Models/ApplicationContext.cs b/WebLibrary/Models/ApplicationContext.cs
+index e8af205..bcd26d0 100644
+--- a/WebLibrary/Models/ApplicationContext.cs
++++ b/WebLibrary/Models/ApplicationContext.cs
+@@ -15,6 +15,7 @@ namespace WebLibrary.Models
+             : base(options)
+         {
+             Database.EnsureCreated();
++            // Some changes
+         }
+     }
+ }

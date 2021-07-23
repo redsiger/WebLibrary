@@ -11,10 +11,19 @@ namespace WebLibrary.Models
 {
     public class ApplicationContext : IdentityDbContext<User>
     {
+        public DbSet<Book> Books { get; set; }
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
             Database.EnsureCreated();
         }
+
+        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Book>()
+                .HasMany(p => p.Users)
+                .WithMany(b => b.Books);
+        }*/
     }
 }
