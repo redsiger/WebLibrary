@@ -1,0 +1,51 @@
+﻿@model IEnumerable<WebLibrary.Models.Book>
+@{
+    ViewBag.Title = "Список книг";
+}
+
+<a asp-action="Create">Добавить книгу</a>
+
+<table class="table">
+    <tr>
+        <th>Название</th>
+        <th>Жанр</th>
+        <th>Автор</th>
+        <th>Издатель</th>
+        <th>Забронировано</th>
+        <th>Кто забронировал</th>
+        <th>Текущий держатель</th>
+        <th>Все держатели</th>
+    </tr>
+    @foreach (var book in Model)
+    {
+        <tr>
+            <td>@book.Name</td>
+            <td>@book.Genre</td>
+            <td>@book.Author</td>
+            <td>@book.Publisher</td>
+            <td>@book.isBooked</td>
+            <td>@book.WhoBooked</td>
+            <td>@book.CurrentHolder</td>
+            <td>
+                @if (book.Users?.Any() ?? false)
+                {
+                    @foreach (var user in book.Users)
+                    {
+                        @user.Name <br>
+                    }
+                } else
+                {
+                    <div>Пока нет пользователей</div>
+                }
+            </td>
+            <td>
+                <form asp-action="Delete" asp-route-id="@book.Id" method="post">
+                    <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@book.Id">Изменить</a>
+                    <button type="submit" class="btn btn-sm btn-danger">
+                        Удалить
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>

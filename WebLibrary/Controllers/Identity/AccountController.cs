@@ -107,11 +107,11 @@ namespace WebLibrary.Controllers.Identity
                 if (user != null)
                 {
                     // проверяем, подтвержден ли email
-                    if (!await _userManager.IsEmailConfirmedAsync(user))
+                    /*if (!await _userManager.IsEmailConfirmedAsync(user))
                     {
                         ModelState.AddModelError(string.Empty, "Вы не подтвердили свой email");
                         return View(model);
-                    }
+                    }*/
                 }
 
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);

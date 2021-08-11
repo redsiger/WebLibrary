@@ -43,6 +43,7 @@ namespace WebLibrary
                 //-----Email-----
                 opts.User.RequireUniqueEmail = true;    // уникальный email
                 opts.User.AllowedUserNameCharacters = ".@abcdefghijklmnopqrstuvwxyz"; // допустимые символы
+                opts.SignIn.RequireConfirmedEmail = false;
             })
                 .AddEntityFrameworkStores<ApplicationContext>()
                 .AddDefaultTokenProviders();
